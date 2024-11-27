@@ -2,18 +2,8 @@ cmake_minimum_required(VERSION 3.15)
 
 project(rknn_model_zoo_3rdparty_libs)
 
-if (CMAKE_SYSTEM_NAME STREQUAL "Android")
-    set (TARGET_LIB_ARCH ${CMAKE_ANDROID_ARCH_ABI})
-else()
-    if(CMAKE_SIZEOF_VOID_P EQUAL 8)
-        set (TARGET_LIB_ARCH aarch64)
-    else()
-        set (TARGET_LIB_ARCH armhf)
-    endif()
-    if (CMAKE_C_COMPILER MATCHES "uclibc")
-        set (TARGET_LIB_ARCH ${TARGET_LIB_ARCH}_uclibc)
-    endif()
-endif()
+
+set (TARGET_LIB_ARCH aarch64)
 
 # stb image
 set(STB_PATH ${CMAKE_CURRENT_SOURCE_DIR}/stb_image)
@@ -26,13 +16,11 @@ set(LIBJPEG_INCLUDES ${JPEG_PATH}/include PARENT_SCOPE)
 
 # rknn runtime
 # for rknpu2
-if (TARGET_SOC STREQUAL "rk3588" OR TARGET_SOC STREQUAL "rk3576" OR TARGET_SOC STREQUAL "rk356x" OR TARGET_SOC STREQUAL "rv1106" OR TARGET_SOC STREQUAL "rv1103")
-    set(RKNN_PATH ${CMAKE_CURRENT_SOURCE_DIR}/rknpu2)
-    if (TARGET_SOC STREQUAL "rk3588" OR TARGET_SOC STREQUAL "rk356x" OR TARGET_SOC STREQUAL "rk3576" )
-        set(LIBRKNNRT ${RKNN_PATH}/${CMAKE_SYSTEM_NAME}/${TARGET_LIB_ARCH}/librknnrt.so)
-    endif()
-    set(LIBRKNNRT_INCLUDES ${RKNN_PATH}/include PARENT_SCOPE)
-endif()
+set(RKNN_PATH ${CMAKE_CURRENT_SOURCE_DIR}/rknpu2)
+set(LIBRKNNRT ${RKNN_PATH}/${CMAKE_SYSTEM_NAME}/${TARGET_LIB_ARCH}/librknnrt.so CACHE STRING "Path to RKNNRT library")
+set(LIBRKNNRT_INCLUDES ${RKNN_PATH}/include CACHE STRING "Path to RKNNRT includes")
+message(STATUS "RKNN Path: ${RKNN_PATH}")
+message(STATUS "RKNN Library: ${LIBRKNNRT}")
 
 
 # rga

@@ -47,19 +47,27 @@ BUILD_TYPE=${BUILD_TYPE:-Release}
 ENABLE_ASAN=${ENABLE_ASAN:-OFF}
 DISABLE_RGA=${DISABLE_RGA:-OFF}
 
+
+# 配置目标平台
+TARGET_SOC="rk3588"
+TARGET_ARCH="aarch64"
+GCC_COMPILER="aarch64-linux-gnu"
+export CC=${GCC_COMPILER}-gcc
+export CXX=${GCC_COMPILER}-g++
+
 # 确定 DEMO 路径
-for demo_path in $(find examples -name ${BUILD_DEMO_NAME}); do
-  if [ -d "$demo_path/cpp" ]; then
-    BUILD_DEMO_PATH="$demo_path/cpp"
+for model_path in $(find models -name ${BUILD_DEMO_NAME}); do
+  if [ -d "$model_path/cpp" ]; then
+    BUILD_model_PATH="$model_path/cpp"
     break
   fi
 done
 
-if [ -z "${BUILD_DEMO_PATH}" ]; then
-  echo "无法找到 DEMO: ${BUILD_DEMO_NAME}"
+if [ -z "${BUILD_model_PATH}" ]; then
+  echo "无法找到 MODELS: ${BUILD_DEMO_NAME}"
   echo "可选项:"
-  for demo_path in $(find examples -name cpp); do
-    dname=$(dirname "$demo_path")
+  for model_path in $(find models -name cpp); do
+    dname=$(dirname "$model_path")
     name=$(basename $dname)
     echo "$name"
   done
@@ -73,7 +81,7 @@ BUILD_DIR=${ROOT_PWD}/build/${BUILD_DEMO_NAME}_${BUILD_TYPE}
 
 echo "==================================="
 echo "BUILD_DEMO_NAME=${BUILD_DEMO_NAME}"
-echo "BUILD_DEMO_PATH=${BUILD_DEMO_PATH}"
+echo "BUILD_model_PATH=${BUILD_model_PATH}"
 echo "BUILD_TYPE=${BUILD_TYPE}"
 echo "ENABLE_ASAN=${ENABLE_ASAN}"
 echo "DISABLE_RGA=${DISABLE_RGA}"
@@ -87,7 +95,7 @@ rm -rf ${INSTALL_DIR}
 
 # 进入构建目录并运行 CMake 和 Make
 cd ${BUILD_DIR}
-cmake ../../${BUILD_DEMO_PATH} \
+cmake ../../${BUILD_model_PATH} \
     -DCMAKE_BUILD_TYPE=${BUILD_TYPE} \
     -DENABLE_ASAN=${ENABLE_ASAN} \
     -DDISABLE_RGA=${DISABLE_RGA} \
