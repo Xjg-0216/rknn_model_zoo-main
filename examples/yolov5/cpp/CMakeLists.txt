@@ -9,16 +9,8 @@ if (ENABLE_ASAN)
 	set (CMAKE_LINKER_FLAGS_DEBUG "${CMAKE_LINKER_FLAGS_DEBUG} -fno-omit-frame-pointer -fsanitize=address")
 endif ()
 
-set(rknpu_yolov5_file rknpu2/yolov5.cc)
-if (TARGET_SOC STREQUAL "rv1106" OR TARGET_SOC STREQUAL "rv1103")
-    add_definitions(-DRV1106_1103)
-    set(rknpu_yolov5_file rknpu2/yolov5_rv1106_1103.cc)
-    #dma
-    include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../../3rdparty/allocator/dma)
-elseif(TARGET_SOC STREQUAL "rk1808" OR TARGET_SOC STREQUAL "rv1109" OR TARGET_SOC STREQUAL "rv1126")
-    add_definitions(-DRKNPU1)
-    set(rknpu_yolov5_file rknpu1/yolov5.cc)
-endif()
+set(rknpu_yolov5_file yolov5.cc)
+
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../../../3rdparty/ 3rdparty.out)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../../../utils/ utils.out)
@@ -42,11 +34,7 @@ target_link_libraries(${PROJECT_NAME}
     dl
 )
 
-if (CMAKE_SYSTEM_NAME STREQUAL "Android")
-    target_link_libraries(${PROJECT_NAME}
-    log
-)
-endif()
+
 
 if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
     set(THREADS_PREFER_PTHREAD_FLAG ON)
