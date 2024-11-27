@@ -1,7 +1,7 @@
-*.rknn
+# *.rknn
 *.pt
 *.torchscript
-*.onnx
+# *.onnx
 *.log
 *.pyc
 *.zip
