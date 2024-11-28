@@ -24,6 +24,7 @@
 #include "image_utils.h"
 #include "file_utils.h"
 #include "image_drawing.h"
+#include "easy_timer.h"
 
 /*-------------------------------------------
                   Main Function
@@ -45,7 +46,14 @@ int main(int argc, char **argv)
 
     init_post_process();
 
+
+
     ret = init_yolo11_model(model_path, &rknn_app_ctx);
+
+    // 创建计时器对象
+    TIMER timer;
+
+    timer.tik();
     if (ret != 0)
     {
         printf("init_yolo11_model fail! ret=%d model_path=%s\n", ret, model_path);
@@ -71,6 +79,9 @@ int main(int argc, char **argv)
         printf("init_yolo11_model fail! ret=%d\n", ret);
         goto out;
     }
+
+    timer.tok();
+    timer.print_time("YOLO11 Init and Inference Time");
 
     // 画框和概率
     char text[256];
