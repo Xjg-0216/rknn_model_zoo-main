@@ -24,6 +24,7 @@
 #include "image_utils.h"
 #include "file_utils.h"
 #include "image_drawing.h"
+#include "easy_timer.h"
 
 
 
@@ -47,7 +48,12 @@ int main(int argc, char **argv)
 
     init_post_process();
 
+    TIMER timer;
+
+
     ret = init_yolov5_model(model_path, &rknn_app_ctx);
+    // 创建计时器对象
+
     if (ret != 0)
     {
         printf("init_yolov5_model fail! ret=%d model_path=%s\n", ret, model_path);
@@ -66,6 +72,9 @@ int main(int argc, char **argv)
 
     object_detect_result_list od_results;
 
+
+    // 测量模型初始化和推理时间
+    timer.tik();
     ret = inference_yolov5_model(&rknn_app_ctx, &src_image, &od_results);
     if (ret != 0)
     {
@@ -73,6 +82,8 @@ int main(int argc, char **argv)
         goto out;
     }
 
+    timer.tok();
+    timer.print_time("YOLOv5 Init and Inference Time");
     // 画框和概率
     char text[256];
     for (int i = 0; i < od_results.count; i++)

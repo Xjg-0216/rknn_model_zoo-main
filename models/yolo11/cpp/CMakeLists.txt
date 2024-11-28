@@ -39,6 +39,7 @@ target_link_libraries(${PROJECT_NAME} Threads::Threads)
 target_include_directories(${PROJECT_NAME} PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${LIBRKNNRT_INCLUDES}
+    ${LIBTIMER_INCLUDES}
 )
 
 
@@ -69,6 +70,7 @@ target_link_libraries(${PROJECT_NAME}_zero_copy Threads::Threads)
 target_include_directories(${PROJECT_NAME}_zero_copy PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${LIBRKNNRT_INCLUDES}
+    ${LIBTIMER_INCLUDES}
 )
 install(TARGETS ${PROJECT_NAME}_zero_copy DESTINATION .)
 
