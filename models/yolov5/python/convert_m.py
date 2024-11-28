@@ -2,9 +2,9 @@ import sys
 
 from rknn.api import RKNN
 
-DATASET_PATH = '../../../datasets/COCO/coco_subset_20.txt'
-DEFAULT_RKNN_PATH = '../model/yolov5.rknn'
-DEFAULT_QUANT = False
+DATASET_PATH = '/home/xujg/code/rknn_model_zoo-main/datasets/newdataset/sampled_images.txt'
+DEFAULT_RKNN_PATH = '../model/yolov5_int8.rknn'
+DEFAULT_QUANT = True
 
 def parse_arg():
     if len(sys.argv) < 3:

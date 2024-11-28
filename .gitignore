@@ -17,7 +17,7 @@ install
 
 datasets/COCO/annotations/*
 datasets/COCO/val2017/*
-
+datasets/newdataset/*
 breakpoint_output/
 
 models/CV/body_analysis/
