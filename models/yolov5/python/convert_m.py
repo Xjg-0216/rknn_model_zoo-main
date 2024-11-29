@@ -4,18 +4,19 @@ from rknn.api import RKNN
 
 DATASET_PATH = '/home/xujg/code/rknn_model_zoo-main/datasets/newdataset/sampled_images.txt'
 DEFAULT_RKNN_PATH = '../model/yolov5_int8.rknn'
+DEFAULT_ONNX_PATH = "/home/xujg/code/rknn_model_zoo-main/models/yolov5/model/yolov5-sim.onnx"
 DEFAULT_QUANT = True
 
 def parse_arg():
-    if len(sys.argv) < 3:
-        print("Usage: python3 {} onnx_model_path [platform] [dtype(optional)] [output_rknn_path(optional)]".format(sys.argv[0]))
-        print("       platform choose from [rk3562,rk3566,rk3568,rk3576,rk3588,rv1103,rv1106,rk1808,rv1109,rv1126]")
-        print("       dtype choose from [i8, fp] for [rk3562,rk3566,rk3568,rk3576,rk3588,rv1103,rv1106]")
-        print("       dtype choose from [u8, fp] for [rk1808,rv1109,rv1126]")
-        exit(1)
+    # if len(sys.argv) < 3:
+    #     print("Usage: python3 {} onnx_model_path [platform] [dtype(optional)] [output_rknn_path(optional)]".format(sys.argv[0]))
+    #     print("       platform choose from [rk3562,rk3566,rk3568,rk3576,rk3588,rv1103,rv1106,rk1808,rv1109,rv1126]")
+    #     print("       dtype choose from [i8, fp] for [rk3562,rk3566,rk3568,rk3576,rk3588,rv1103,rv1106]")
+    #     print("       dtype choose from [u8, fp] for [rk1808,rv1109,rv1126]")
+    #     exit(1)
 
-    model_path = sys.argv[1]
-    platform = sys.argv[2]
+    model_path = DEFAULT_ONNX_PATH
+    platform = "rk3588"
 
     do_quant = DEFAULT_QUANT
     if len(sys.argv) > 3:
